@@ -64,6 +64,12 @@ Connect-MicrosoftTeams
 # Define Teams Calling Line Identity Policy
     $CallingLineIdentity = Get-CsCallingLineIdentity | Select-Object Identity, Description | Out-GridView -OutputMode Single -Title "Please select a Calling Line Identity"
     Write-Host $CallingLineIdentity.Identity "is your chosen Calling Line Identity"
+# Define Emergency Call Routing Policy
+    $EmergencyCallRoutingPolicy = Get-CsOnlineEmergencyCallRoutingPolicy | Select-Object Identity, Description | Out-GridView -OutputMode Single -Title "Please select an Emergency Call Routing Policy"
+    Write-Host $EmergencyCallRoutingPolicy.Identity "is your chosen Emergency Call Routing Policy"
+# Define Teams Dial Plan
+    $DialPlan = Get-CsOnlineDialPlan | Select-Object Identity, Description | Out-GridView -OutputMode Single -Title "Please select a Dial Plan"
+    Write-Host $DialPlan.Identity "is your chosen Dial Plan"
 
 # Loop through each row containing user details in the CSV file
 foreach ($User in $Users) {
@@ -74,7 +80,6 @@ foreach ($User in $Users) {
     Set-CsPhoneNumberAssignment -Identity $UPN -EnterpriseVoiceEnabled $true
     Grant-CsTeamsSharedCallingRoutingPolicy -PolicyName $SharedCallingPolicy -Identity $UPN
     Grant-CsOnlineVoiceRoutingPolicy -PolicyName $VoiceRoutingPolicy -Identity $UPN
-    Grant-CsCallingLineIdentity -PolicyName $CallingLineIdentity -Identity $UPN    
+    Grant-CsOnlineEmergencyCallRoutingPolicy -PolicyName $EmergencyCallRoutingPolicy -Identity $UPN
+    Grant-CsOnlineDialPlan -PolicyName $DialPlan -Identity $UPN  
     }
-
-
