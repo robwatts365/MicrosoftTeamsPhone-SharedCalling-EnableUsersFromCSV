@@ -80,6 +80,9 @@ foreach ($User in $Users) {
     Set-CsPhoneNumberAssignment -Identity $UPN -EnterpriseVoiceEnabled $true
     Grant-CsTeamsSharedCallingRoutingPolicy -PolicyName $SharedCallingPolicy -Identity $UPN
     Grant-CsOnlineVoiceRoutingPolicy -PolicyName $VoiceRoutingPolicy -Identity $UPN
+    Grant-CsCallingLineIdentity -PolicyName $CallingLineIdentity -Identity $UPN
     Grant-CsOnlineEmergencyCallRoutingPolicy -PolicyName $EmergencyCallRoutingPolicy -Identity $UPN
     Grant-CsOnlineDialPlan -PolicyName $DialPlan -Identity $UPN  
     }
+
+
